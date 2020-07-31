@@ -11,7 +11,19 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# Local Dev Files
+.DS_Store
+.idea
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
 tmp
+
+# Ignore server binary
+/server/server
+
+# Terraform
+tf/.terraform
+tf/*.plan
+tf/*.state
