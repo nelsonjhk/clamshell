@@ -14,9 +14,14 @@ type Move struct {
 	point *point.Point
 }
 
-// NewMove creates a new Move.
-func NewMove(col color.Color, pt *point.Point) *Move {
+// New creates a new Move.
+func New(col color.Color, pt *point.Point) *Move {
 	return &Move{color: col, point: pt}
+}
+
+// NewPass creates a a new pass Move.
+func NewPass(col color.Color) *Move {
+	return &Move{color: col, point: nil}
 }
 
 // Color returns the color.
@@ -29,9 +34,14 @@ func (m *Move) Point() *point.Point {
 	return m.point
 }
 
-// String returns the string value for a Move
+// String returns the string value for a Move.
 func (m *Move) String() string {
 	return fmt.Sprintf("{%v, %v}", m.color, m.point)
+}
+
+// GoString returns the string value.
+func (m *Move) GoString() string {
+	return fmt.Sprintf("{Color:%v, Point:%v}", m.color, m.point)
 }
 
 // IsPass indicates whether this is a 'pass' move (i.e., there is a player but

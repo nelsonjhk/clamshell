@@ -68,7 +68,10 @@ func TestPointToSGFTranslate(t *testing.T) {
 
 	for _, tc := range testToSGFCases {
 		t.Run(tc.desc, func(t *testing.T) {
-			toSGFOut, _ := New(tc.in.x, tc.in.y).ToSGF()
+			toSGFOut, err := New(tc.in.x, tc.in.y).ToSGF()
+			if err != nil {
+				t.Fatal(err)
+			}
 			if toSGFOut != tc.want {
 				t.Errorf("%q.ToSGF() = %q, but wanted %q", tc.in,
 					toSGFOut, tc.want)
@@ -119,7 +122,11 @@ func TestSGFToPointTranslate(t *testing.T) {
 
 	for _, tc := range testToPointCases {
 		t.Run(tc.desc, func(t *testing.T) {
-			toPointOut, _ := NewFromSGF(tc.in)
+			toPointOut, err := NewFromSGF(tc.in)
+			if err != nil {
+				t.Fatal(err)
+			}
+
 			// include the point.go *Point type X Y getters below
 			pointX := toPointOut.X()
 			pointY := toPointOut.Y()
@@ -133,5 +140,20 @@ func TestSGFToPointTranslate(t *testing.T) {
 			}
 		})
 	}
+}
 
+func TestKey(t *testing.T) {
+	pt := New(12, 15)
+
+	key := pt.Key()
+	exp := Key{X: 12, Y: 15}
+
+	if key != exp {
+		t.Errorf("error converting point to key: got %v, but expected %v", key, exp)
+	}
+
+	back := exp.Point()
+	if !pt.Equals(back) {
+		t.Errorf("error converting key to point: got %v, but expected %v", back, pt)
+	}
 }
